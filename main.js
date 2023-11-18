@@ -2,7 +2,7 @@ const main = () => {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = 800;
-    canvas.height = 800;
+    canvas.height = 850;
 
     ctx.fillStyle = "black";
     ctx.lineWidth = 3;
@@ -70,7 +70,7 @@ const main = () => {
             this.game = game;
             this.spriteWidth = 70; // drew the rocket this size 
             this.spriteHeight = 70;
-            this.x = this.game.width / 2;
+            this.x = this.game.width / 2 - this.spriteWidth / 2;
             this.y = this.game.height - this.spriteHeight;
             this.image = document.getElementById("mainPlayer");
         }

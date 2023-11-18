@@ -5,15 +5,41 @@ html, body {
     background: url(./assets/starrybg.png);
     background-size: cover;
     background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
 }
 
 canvas {
+    display: block;
     background-color: #000000;
     border: 2px solid #ffff;
+    margin: auto;
 }
 
 img {
     display: none;
+} 
+
+#title {
+    font-size: smaller;
+    color: #ffff00;
+    text-align: center;
+}
+
+@media (max-height: 869px) {
+    canvas {
+        width: 75%;
+        height: 90%;
+    }
+    #title {
+        font-size: 0.5rem;
+    }
+}
+
+@media (max-width: 1050px) {
+    canvas {
+        width: 75%;
+        height: 75%;
+    }
+    #title {
+        font-size: 0.5rem;
+    }
 }
