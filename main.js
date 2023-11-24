@@ -6,8 +6,8 @@ const main = () => {
 
     ctx.fillStyle = "black";
     ctx.lineWidth = 3;
-    ctx.strokeStyle = "teal";
-    const speed = 10;
+    ctx.strokeStyle = "gray";
+    const speed = 12;
 
 
     class Game {
@@ -17,7 +17,7 @@ const main = () => {
             this.height = this.canvas.height;
             this.player = new Player(this);
             this.projectiles = [];
-
+            this.rock = new Rock(this);
 
             window.addEventListener("keydown", (e) => {
                 switch (e.key) {
@@ -53,12 +53,14 @@ const main = () => {
 
         update() {
             this.projectiles.forEach(projectile => projectile.update());
+            //this.rock.update();
 
             this.projectiles = this.projectiles.filter(projectile => projectile.y + projectile.height >= 0);
         }
 
         render(context) {
             this.player.render(context);
+            this.rock.render(context);
 
             this.projectiles.forEach(projectile => projectile.render(context));
         }
@@ -109,7 +111,26 @@ const main = () => {
             context.fillRect(this.x, this.y, this.width, this.height);
         }
     }
+    
+    class Rock {
+        constructor(game) {
+            this.game = game;
+            this.radius = Math.floor(Math.random() * 1 + 6);
+            this.x = Math.random() * this.game.width - this.radius * 2;
+            this.y = 0 + this.radius * 2;
+            this.fallSpeed = 1;
+        }
 
+        update() {
+            this.y += this.fallSpeed;
+        }
+
+        render(context) {
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            context.stroke();
+        }
+    }
 
     const game = new Game(canvas);
     game.render(ctx);
