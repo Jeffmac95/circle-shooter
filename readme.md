@@ -1,1 +1,0 @@
-Rock Shooter is a project I started to learn, and practice more on the canvas, game development, and object-oriented programming.
