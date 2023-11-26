@@ -4,11 +4,6 @@ const main = () => {
     canvas.width = 800;
     canvas.height = 850;
 
-    ctx.fillStyle = "black";
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = "gray";
-    const speed = 12;
-
 
     class Game {
         constructor(canvas) {
@@ -17,8 +12,8 @@ const main = () => {
             this.height = this.canvas.height;
             this.player = new Player(this);
             this.projectiles = [];
-            this.rock = new Rock(this);
-            this.lrgRock = new LargeRock(this);
+            this.circles = [];
+            this.spawnCircles();
 
             window.addEventListener("keydown", (e) => {
                 switch (e.key) {
@@ -38,12 +33,12 @@ const main = () => {
         }
 
         moveRight() {
-            this.player.x += speed;
+            this.player.x += this.player.speed;
             this.player.move();
         }
 
         moveLeft() {
-            this.player.x -= speed;
+            this.player.x -= this.player.speed;
             this.player.move();
         }
 
@@ -52,19 +47,27 @@ const main = () => {
             this.projectiles.push(projectile);
         }
 
+        spawnCircles() {
+            const maxCircleCount = 10; 
+            for (let i = 0; i < maxCircleCount; i++) {
+                this.circles.push(new Circle(this));
+            }
+        }
+
         update() {
             this.projectiles.forEach(projectile => projectile.update());
-
             this.projectiles = this.projectiles.filter(projectile => projectile.y + projectile.height >= 0);
+
+            this.circles.forEach(circle => circle.update());
+            this.circles = this.circles.filter(circle => circle.y + circle.radius / 2 < this.canvas.height);
         }
 
         render(context) {
             this.player.render(context);
-            this.rock.render(context);
-            this.lrgRock.render(context);
-            // this.rock.update();
 
             this.projectiles.forEach(projectile => projectile.render(context));
+
+            this.circles.forEach(circle => circle.render(context));
         }
     }
 
@@ -76,6 +79,7 @@ const main = () => {
             this.spriteHeight = 70;
             this.x = this.game.width / 2 - this.spriteWidth / 2;
             this.y = this.game.height - this.spriteHeight;
+            this.speed = 7;
             this.image = document.getElementById("mainPlayer");
         }
 
@@ -116,56 +120,36 @@ const main = () => {
     }
 
 
-    class Rock {
+    class Circle {
         constructor(game) {
             this.game = game;
-            this.spriteWidth = 40;
-            this.spriteHeight = 40;
-            this.x = Math.floor(Math.random() * (this.game.width - this.spriteWidth) + this.spriteWidth / 2);
-            this.y = this.spriteHeight;
+            this.radius = Math.floor(Math.random() * 50);
+            this.x = Math.floor(Math.random() * (this.game.width - this.radius));
+            this.y = Math.floor(Math.random() * 100);
             this.fallSpeed = 1;
-            this.image = document.getElementById("medRock");
         }
 
         update() {
             this.y += this.fallSpeed;
+            console.log(`circle pos: x: ${this.x}, y: ${this.y}`);
         }
 
         render(context) {
+            context.fillStyle = `hsl(${this.x}, 100%, 60%)`;
             context.beginPath();
-            context.drawImage(this.image, this.x, this.y);
-            context.stroke();
+            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            context.fill();
         }
     }
 
-    class LargeRock {
-        constructor(game) {
-            this.game = game;
-            this.spriteWidth = 60;
-            this.spriteHeight = 60;
-            this.x = Math.floor(Math.random() * (this.game.width - this.spriteWidth) + this.spriteWidth / 2);
-            this.y = this.spriteHeight;
-            this.image = document.getElementById("lrgRock");
-        }
-
-        update() {
-            this.y += this.fallSpeed;
-        }
-
-        render(context) {
-            context.beginPath();
-            context.drawImage(this.image, this.x, this.y);
-            context.stroke();
-        }
-    }
 
     const game = new Game(canvas);
-    game.render(ctx);
+    // game.render(ctx);
     console.log(game);
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        game.update()
+        game.update();
         game.render(ctx);
         requestAnimationFrame(animate);
     }
