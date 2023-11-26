@@ -18,6 +18,7 @@ const main = () => {
             this.player = new Player(this);
             this.projectiles = [];
             this.rock = new Rock(this);
+            this.lrgRock = new LargeRock(this);
 
             window.addEventListener("keydown", (e) => {
                 switch (e.key) {
@@ -53,7 +54,6 @@ const main = () => {
 
         update() {
             this.projectiles.forEach(projectile => projectile.update());
-            //this.rock.update();
 
             this.projectiles = this.projectiles.filter(projectile => projectile.y + projectile.height >= 0);
         }
@@ -61,6 +61,8 @@ const main = () => {
         render(context) {
             this.player.render(context);
             this.rock.render(context);
+            this.lrgRock.render(context);
+            // this.rock.update();
 
             this.projectiles.forEach(projectile => projectile.render(context));
         }
@@ -92,6 +94,7 @@ const main = () => {
         }
     }
 
+
     class Projectile {
         constructor(game, firedX, firedY) {
             this.game = game;
@@ -111,14 +114,17 @@ const main = () => {
             context.fillRect(this.x, this.y, this.width, this.height);
         }
     }
-    
+
+
     class Rock {
         constructor(game) {
             this.game = game;
-            this.radius = Math.floor(Math.random() * 1 + 6);
-            this.x = Math.random() * this.game.width - this.radius * 2;
-            this.y = 0 + this.radius * 2;
+            this.spriteWidth = 40;
+            this.spriteHeight = 40;
+            this.x = Math.floor(Math.random() * (this.game.width - this.spriteWidth) + this.spriteWidth / 2);
+            this.y = this.spriteHeight;
             this.fallSpeed = 1;
+            this.image = document.getElementById("medRock");
         }
 
         update() {
@@ -127,7 +133,28 @@ const main = () => {
 
         render(context) {
             context.beginPath();
-            context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            context.drawImage(this.image, this.x, this.y);
+            context.stroke();
+        }
+    }
+
+    class LargeRock {
+        constructor(game) {
+            this.game = game;
+            this.spriteWidth = 60;
+            this.spriteHeight = 60;
+            this.x = Math.floor(Math.random() * (this.game.width - this.spriteWidth) + this.spriteWidth / 2);
+            this.y = this.spriteHeight;
+            this.image = document.getElementById("lrgRock");
+        }
+
+        update() {
+            this.y += this.fallSpeed;
+        }
+
+        render(context) {
+            context.beginPath();
+            context.drawImage(this.image, this.x, this.y);
             context.stroke();
         }
     }
