@@ -13,6 +13,8 @@ const main = () => {
             this.player = new Player(this);
             this.projectiles = [];
             this.circles = [];
+            this.score = 0;
+            this.scoreDisplay = document.getElementById("score");
             this.spawnCircles();
 
             window.addEventListener("keydown", (e) => {
@@ -25,6 +27,9 @@ const main = () => {
                         break;
                     case " ":
                         this.shootProjectile();
+                        break;
+                    case 'g':
+                        console.log(this.circles);
                         break;
                 }
 
@@ -54,6 +59,28 @@ const main = () => {
             }
         }
 
+        detectCollision() {
+            this.circles.forEach((circle, i) => {
+                if (circle.x + circle.radius > this.player.x &&
+                    circle.x - circle.radius < this.player.x + this.player.spriteWidth &&
+                    circle.y + circle.radius > this.player.y &&
+                    circle.y - circle.radius < this.player.y + this.player.spriteHeight) {
+
+                        console.log("hit");
+
+                        this.player.hp--;
+                        this.player.hpDisplay.textContent -= 1;
+
+                        this.circles.splice(i, 1);
+                        
+                    }
+            });
+
+            this.projectiles.forEach((projectile, i) => {
+
+            })
+        }
+
         update() {
             this.projectiles.forEach(projectile => projectile.update());
             this.projectiles = this.projectiles.filter(projectile => projectile.y + projectile.height >= 0);
@@ -64,6 +91,8 @@ const main = () => {
             if (this.circles.length <= 5) {
                 this.spawnCircles();
             }
+
+            this.detectCollision();
         }
 
         render(context) {
@@ -85,6 +114,8 @@ const main = () => {
             this.y = this.game.height - this.spriteHeight;
             this.speed = 10;
             this.image = document.getElementById("mainPlayer");
+            this.hp = 10;
+            this.hpDisplay = document.getElementById("hp");
         }
 
         render(context) {
@@ -146,7 +177,7 @@ const main = () => {
         }
 
         render(context) {
-            context.fillStyle = `hsl(${this.x}, 100%, 60%)`;
+            context.fillStyle = `hsl(${this.x - 200}, 100%, 50%)`;
             context.beginPath();
             context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
             context.fill();
