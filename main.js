@@ -48,7 +48,7 @@ const main = () => {
         }
 
         spawnCircles() {
-            const maxCircleCount = 10; 
+            const maxCircleCount = 3; 
             for (let i = 0; i < maxCircleCount; i++) {
                 this.circles.push(new Circle(this));
             }
@@ -60,6 +60,10 @@ const main = () => {
 
             this.circles.forEach(circle => circle.update());
             this.circles = this.circles.filter(circle => circle.y + circle.radius / 2 < this.canvas.height);
+            this.circles = this.circles.filter(circle => circle.y + circle.radius * 2 >= 0);
+            if (this.circles.length <= 5) {
+                this.spawnCircles();
+            }
         }
 
         render(context) {
@@ -79,7 +83,7 @@ const main = () => {
             this.spriteHeight = 70;
             this.x = this.game.width / 2 - this.spriteWidth / 2;
             this.y = this.game.height - this.spriteHeight;
-            this.speed = 7;
+            this.speed = 10;
             this.image = document.getElementById("mainPlayer");
         }
 
@@ -123,15 +127,22 @@ const main = () => {
     class Circle {
         constructor(game) {
             this.game = game;
-            this.radius = Math.floor(Math.random() * 50);
+            this.minRadius = 10;
+            this.maxRadius = 50;
+            this.radius = Math.floor(Math.random() * (this.maxRadius - this.minRadius + 1)) + this.minRadius;
             this.x = Math.floor(Math.random() * (this.game.width - this.radius));
             this.y = Math.floor(Math.random() * 100);
-            this.fallSpeed = 1;
+            this.fallSpeed = this.getFallSpeed();
+        }
+
+        getFallSpeed() {
+            const speed = 25;
+            return speed / this.radius;
         }
 
         update() {
             this.y += this.fallSpeed;
-            console.log(`circle pos: x: ${this.x}, y: ${this.y}`);
+            // console.log(`circle pos:\nx: ${this.x}, y: ${this.y}`);
         }
 
         render(context) {
