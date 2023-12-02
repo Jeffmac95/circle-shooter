@@ -2,6 +2,7 @@ html, body {
     width: 100vw;
     height: 100vh;
     margin: 0;
+    font-family: monospace, sans-serif;
     background: url(./assets/starrybg.png);
     background-size: cover;
     background-repeat: no-repeat;
@@ -19,7 +20,7 @@ img {
 } 
 
 #title {
-    font-size: smaller;
+    font-size: xx-large;
     color: #ffff00;
     text-align: center;
 }
