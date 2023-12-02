@@ -20,6 +20,10 @@ img {
 } 
 
 #title {
+    width: 800px;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
     font-size: xx-large;
     color: #ffff00;
     text-align: center;
@@ -31,7 +35,8 @@ img {
         height: 90%;
     }
     #title {
-        font-size: 0.5rem;
+        width: 75%;
+        height: 20%;
     }
 }
 
@@ -41,6 +46,7 @@ img {
         height: 75%;
     }
     #title {
-        font-size: 0.5rem;
+        width: 75%;
+        height: 20%;
     }
 }
