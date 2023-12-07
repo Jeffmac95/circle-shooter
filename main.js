@@ -173,7 +173,6 @@ const main = () => {
 
         update() {
             this.y += this.fallSpeed;
-            // console.log(`circle pos:\nx: ${this.x}, y: ${this.y}`);
         }
 
         render(context) {
