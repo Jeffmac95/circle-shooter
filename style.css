@@ -20,7 +20,7 @@ img {
 } 
 
 #title {
-    width: 800px;
+    width: 800px; /* width of the canvas */
     margin: auto;
     display: flex;
     justify-content: space-around;
