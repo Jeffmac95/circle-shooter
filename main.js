@@ -29,7 +29,7 @@ const main = () => {
                         this.shootProjectile();
                         break;
                     case 'g':
-                        console.log(this.circles);
+                        console.log(this);
                         break;
                 }
 
@@ -59,28 +59,6 @@ const main = () => {
             }
         }
 
-        detectCollision() {
-            this.circles.forEach((circle, i) => {
-                if (circle.x + circle.radius > this.player.x &&
-                    circle.x - circle.radius < this.player.x + this.player.spriteWidth &&
-                    circle.y + circle.radius > this.player.y &&
-                    circle.y - circle.radius < this.player.y + this.player.spriteHeight) {
-
-                        console.log("hit");
-
-                        this.player.hp--;
-                        this.player.hpDisplay.textContent -= 1;
-
-                        this.circles.splice(i, 1);
-                        
-                    }
-            });
-
-            this.projectiles.forEach((projectile, i) => {
-
-            })
-        }
-
         update() {
             this.projectiles.forEach(projectile => projectile.update());
             this.projectiles = this.projectiles.filter(projectile => projectile.y + projectile.height >= 0);
@@ -88,11 +66,13 @@ const main = () => {
             this.circles.forEach(circle => circle.update());
             this.circles = this.circles.filter(circle => circle.y + circle.radius / 2 < this.canvas.height);
             this.circles = this.circles.filter(circle => circle.y + circle.radius * 2 >= 0);
+
             if (this.circles.length <= 5) {
                 this.spawnCircles();
             }
 
-            this.detectCollision();
+
+            this.player.playerCircleCollision();
         }
 
         render(context) {
@@ -131,6 +111,27 @@ const main = () => {
                 this.x = -this.spriteWidth;
             }
         }
+
+        update() {
+            this.playerCircleCollision();
+        }
+
+        playerCircleCollision() {
+            this.game.circles.forEach((circle, i) => {
+                if (circle.x + circle.radius > this.x &&
+                    circle.x - circle.radius < this.x + this.spriteWidth &&
+                    circle.y + circle.radius > this.y &&
+                    circle.y - circle.radius < this.y + this.spriteHeight) {
+
+                        console.log("player circle collision");
+                        this.hp--;
+                        this.hpDisplay.textContent = this.hp;
+                        this.game.circles.splice(i, 1);
+                        
+                    }
+            });
+        }
+
     }
 
 
@@ -146,6 +147,24 @@ const main = () => {
 
         update() {
             this.y -= this.projectileSpeed;
+            this.projectileCircleCollision();
+        }
+
+        projectileCircleCollision() {
+            this.game.circles.forEach((circle, index) => {
+                const dx = this.x - circle.x;
+                const dy = this.y - circle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < circle.radius) {
+                    console.log("bullet circle collision");
+                    this.game.projectiles.splice(this.game.projectiles.indexOf(this), 1);
+                    this.game.circles.splice(index, 1);
+
+                    this.game.score++;
+                    this.game.scoreDisplay.textContent = this.game.score;
+                }
+            });
         }
 
         render(context) {
