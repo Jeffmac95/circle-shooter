@@ -6,13 +6,14 @@ html, body {
     background: url(./assets/starrybg.png);
     background-size: cover;
     background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 canvas {
     display: block;
     background-color: #000000;
     border: 2px solid #ffff;
-    margin: auto;
+    margin: 10px auto;
 }
 
 img {
@@ -29,14 +30,14 @@ img {
     text-align: center;
 }
 
-@media (max-height: 869px) {
+@media (max-height: 915px) {
     canvas {
         width: 75%;
-        height: 90%;
+        height: 85%;
     }
     #title {
         width: 75%;
-        height: 20%;
+        height: 10%;
     }
 }
 
@@ -48,5 +49,11 @@ img {
     #title {
         width: 75%;
         height: 20%;
+    }
+}
+
+@media (max-width: 650px) {
+    #title {
+        flex-direction: column;
     }
 }
