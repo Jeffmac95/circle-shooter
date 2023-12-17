@@ -1,12 +1,12 @@
 const main = () => {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    canvas.width = 800;
-    canvas.height = 850;
+    canvas.width = 750;
+    canvas.height = 800;
     canvas.style.filter="none";
     const HpScoreContainer = document.getElementById("infoContainer");
     HpScoreContainer.style.filter="none";
-
+    startGameButton.disabled = true;
 
     class Game {
         constructor(canvas) {
@@ -199,7 +199,7 @@ const main = () => {
         }
 
         getFallSpeed() {
-            const speed = 40;
+            const speed = 30;
             return speed / this.radius;
         }
 
@@ -234,5 +234,5 @@ const main = () => {
     animate();
 }
 
-const startGame = document.getElementById("startGameButton");
-startGame.addEventListener("click", main);
+const startGameButton = document.getElementById("startGameButton");
+startGameButton.addEventListener("click", main);
