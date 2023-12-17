@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css"/>
-    <title>Rock Shooter</title>
+    <title>Circle Shooter</title>
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <img src="assets/rocket.png" alt="spaceship" id="mainPlayer"/>
 
 
-    <div id="title">
-        <label for="hp">&#9829; HP: <span id="hp"></span></label>
-        <label for="score">&#9733; SCORE: <span id="score"></span></label>
+    <div id="infoContainer">
+        <h2>&#9829; HP: <span id="hp"></span></h2>
+        <h2>&#9733; SCORE: <span id="score"></span></h2>
+    </div>
+
+    <div id="gameButtons">
+        <button id="startGameButton">Start</button>
     </div>
 
     <script src="main.js"></script>
