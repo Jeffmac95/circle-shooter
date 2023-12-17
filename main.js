@@ -3,6 +3,9 @@ const main = () => {
     const ctx = canvas.getContext("2d");
     canvas.width = 800;
     canvas.height = 850;
+    canvas.style.filter="none";
+    const HpScoreContainer = document.getElementById("infoContainer");
+    HpScoreContainer.style.filter="none";
 
 
     class Game {
@@ -17,29 +20,28 @@ const main = () => {
             this.scoreDisplay = document.getElementById("score");
             this.scoreDisplay.textContent = this.score;
 
+
             window.addEventListener("keydown", (e) => {
                 switch (e.key) {
                     case 'd':
-                        game.moveRight();
-                        break;
                     case "ArrowRight":
                         game.moveRight();
                         break;
                     case 'a':
-                        game.moveLeft();
-                        break;
                     case "ArrowLeft":
                         game.moveLeft();
                         break;
                     case " ":
+                        e.preventDefault();
                         this.shootProjectile();
                         break;
                     default:
                         console.log(e.key);
+                        break;
                 }
-
-                this.player.move();
             });
+
+            this.player.move();
         }
 
         moveRight() {
@@ -65,8 +67,9 @@ const main = () => {
         }
 
         gameOver() {
-            console.log("Game Over");
             cancelAnimationFrame(this.animationId);
+            alert(`Game Over!\nFinal Score: ${this.score}`);
+            window.location.reload();
         }
 
         update() {
@@ -128,16 +131,16 @@ const main = () => {
         }
 
         playerCircleCollision() {
-            this.game.circles.forEach((circle, i) => {
+            this.game.circles.forEach((circle, index) => {
                 if (circle.x + circle.radius > this.x &&
                     circle.x - circle.radius < this.x + this.spriteWidth &&
                     circle.y + circle.radius > this.y &&
-                    circle.y - circle.radius < this.y + this.spriteHeight) {
-
+                    circle.y - circle.radius < this.y + this.spriteHeight)
+                    {
+                        this.game.circles.splice(index, 1);
                         this.hp--;
-                        console.log(`player circle collision\nhp:${this.hp}`);
                         this.hpDisplay.textContent = this.hp;
-                        this.game.circles.splice(i, 1);
+                        console.log(`player circle collision\nhp:${this.hp}`);
                     }
             });
         }
@@ -220,7 +223,9 @@ const main = () => {
             game.render(ctx);
             game.animationId = requestAnimationFrame(animate);
         } else {
-            game.gameOver();
+            const bodyElement = document.body;
+            bodyElement.style.filter = "blur(1rem)";
+            setTimeout(() => game.gameOver(), 100);
         }
     }
 
@@ -229,4 +234,5 @@ const main = () => {
     animate();
 }
 
-main();
+const startGame = document.getElementById("startGameButton");
+startGame.addEventListener("click", main);
