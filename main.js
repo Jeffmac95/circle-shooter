@@ -15,22 +15,27 @@ const main = () => {
             this.circles = [];
             this.score = 0;
             this.scoreDisplay = document.getElementById("score");
-            this.spawnCircles();
+            this.scoreDisplay.textContent = this.score;
 
             window.addEventListener("keydown", (e) => {
                 switch (e.key) {
                     case 'd':
                         game.moveRight();
                         break;
+                    case "ArrowRight":
+                        game.moveRight();
+                        break;
                     case 'a':
+                        game.moveLeft();
+                        break;
+                    case "ArrowLeft":
                         game.moveLeft();
                         break;
                     case " ":
                         this.shootProjectile();
                         break;
-                    case 'g':
-                        console.log(this);
-                        break;
+                    default:
+                        console.log(e.key);
                 }
 
                 this.player.move();
@@ -53,10 +58,15 @@ const main = () => {
         }
 
         spawnCircles() {
-            const maxCircleCount = 3; 
+            const maxCircleCount = 6; 
             for (let i = 0; i < maxCircleCount; i++) {
                 this.circles.push(new Circle(this));
             }
+        }
+
+        gameOver() {
+            console.log("Game Over");
+            cancelAnimationFrame(this.animationId);
         }
 
         update() {
@@ -96,6 +106,7 @@ const main = () => {
             this.image = document.getElementById("mainPlayer");
             this.hp = 10;
             this.hpDisplay = document.getElementById("hp");
+            this.hpDisplay.textContent = this.hp;
         }
 
         render(context) {
@@ -123,11 +134,10 @@ const main = () => {
                     circle.y + circle.radius > this.y &&
                     circle.y - circle.radius < this.y + this.spriteHeight) {
 
-                        console.log("player circle collision");
                         this.hp--;
+                        console.log(`player circle collision\nhp:${this.hp}`);
                         this.hpDisplay.textContent = this.hp;
                         this.game.circles.splice(i, 1);
-                        
                     }
             });
         }
@@ -177,16 +187,16 @@ const main = () => {
     class Circle {
         constructor(game) {
             this.game = game;
-            this.minRadius = 10;
-            this.maxRadius = 50;
+            this.minRadius = 20;
+            this.maxRadius = 60;
             this.radius = Math.floor(Math.random() * (this.maxRadius - this.minRadius + 1)) + this.minRadius;
             this.x = Math.floor(Math.random() * (this.game.width - this.radius));
-            this.y = Math.floor(Math.random() * 100);
+            this.y = Math.floor(Math.random() * this.radius);
             this.fallSpeed = this.getFallSpeed();
         }
 
         getFallSpeed() {
-            const speed = 25;
+            const speed = 40;
             return speed / this.radius;
         }
 
@@ -195,7 +205,7 @@ const main = () => {
         }
 
         render(context) {
-            context.fillStyle = `hsl(${this.x - 200}, 100%, 50%)`;
+            context.fillStyle = `hsl(${this.x}, 100%, 50%)`;
             context.beginPath();
             context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
             context.fill();
@@ -203,16 +213,19 @@ const main = () => {
     }
 
 
-    const game = new Game(canvas);
-    // game.render(ctx);
-    console.log(game);
-
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         game.update();
-        game.render(ctx);
-        requestAnimationFrame(animate);
+        if (game.player.hp > 0) {
+            game.render(ctx);
+            game.animationId = requestAnimationFrame(animate);
+        } else {
+            game.gameOver();
+        }
     }
+
+    const game = new Game(canvas);
+    console.log(game);
     animate();
 }
 
