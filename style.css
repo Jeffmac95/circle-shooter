@@ -56,28 +56,36 @@ canvas, #infoContainer {
 
 @media (max-height: 915px) {
     canvas {
-        width: 75%;
-        height: 85%;
+        width: 50%;
+        height: 75%;
     }
-    #title {
+    #infoContainer {
         width: 75%;
         height: 10%;
+    }
+    #gameButtons {
+        width: 75%;
+        height: 15%
     }
 }
 
 @media (max-width: 1050px) {
     canvas {
-        width: 75%;
+        width: 50%;
         height: 75%;
     }
-    #title {
+    #infoContainer {
         width: 75%;
-        height: 20%;
+        height: 10%;
+    }
+    #gameButtons {
+        width: 75%;
+        height: 15%;
     }
 }
 
 @media (max-width: 650px) {
-    #title {
+    #infoContainer {
         flex-direction: column;
     }
 }
