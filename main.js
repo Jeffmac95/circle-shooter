@@ -3,10 +3,13 @@ const main = () => {
     const ctx = canvas.getContext("2d");
     canvas.width = 750;
     canvas.height = 800;
-    canvas.style.filter="none";
-    const HpScoreContainer = document.getElementById("infoContainer");
-    HpScoreContainer.style.filter="none";
+    canvas.style.display="block";
+    const gameIntro = document.getElementById("game-intro");
+    gameIntro.style.display="none";
+    const HpScoreContainer = document.getElementById("info-container");
+    HpScoreContainer.style.display="flex";
     startGameButton.disabled = true;
+
 
     class Game {
         constructor(canvas) {
@@ -68,10 +71,23 @@ const main = () => {
 
         gameOver() {
             cancelAnimationFrame(this.animationId);
-            alert(`Game Over!\nFinal Score: ${this.score}`);
-            window.location.reload();
-        }
 
+            const scoreResultContainer = document.getElementById("score-info");
+
+            canvas.style.display="none";
+            HpScoreContainer.style.display="none";
+
+            scoreResultContainer.style.display="flex";
+            scoreResultContainer.style.justifyContent="center";
+            scoreResultContainer.style.color="#ffff"
+            scoreResultContainer.style.width="100%"
+            scoreResultContainer.style.fontSize="xx-large";
+            scoreResultContainer.textContent = `Game Over! Your final score was: ${this.score}`;
+
+            startGameButton.innerHTML="Restart";
+            startGameButton.disabled = false;
+        }
+        
         update() {
             this.projectiles.forEach(projectile => projectile.update());
             this.projectiles = this.projectiles.filter(projectile => projectile.y + projectile.height >= 0);
@@ -106,8 +122,8 @@ const main = () => {
             this.x = this.game.width / 2 - this.spriteWidth / 2;
             this.y = this.game.height - this.spriteHeight;
             this.speed = 10;
-            this.image = document.getElementById("mainPlayer");
-            this.hp = 10;
+            this.image = document.getElementById("main-player");
+            this.hp = 2;
             this.hpDisplay = document.getElementById("hp");
             this.hpDisplay.textContent = this.hp;
         }
@@ -223,9 +239,7 @@ const main = () => {
             game.render(ctx);
             game.animationId = requestAnimationFrame(animate);
         } else {
-            const bodyElement = document.body;
-            bodyElement.style.filter = "blur(1rem)";
-            setTimeout(() => game.gameOver(), 100);
+            game.gameOver();
         }
     }
 
@@ -234,5 +248,5 @@ const main = () => {
     animate();
 }
 
-const startGameButton = document.getElementById("startGameButton");
+const startGameButton = document.getElementById("start-game-button");
 startGameButton.addEventListener("click", main);
