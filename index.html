@@ -8,16 +8,25 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <img src="assets/rocket.png" alt="spaceship" id="mainPlayer"/>
+    <img src="assets/rocket.png" alt="spaceship" id="main-player"/>
 
 
-    <div id="infoContainer">
+    <div id="info-container">
         <h2>&#9829; HP: <span id="hp"></span></h2>
         <h2>&#9733; SCORE: <span id="score"></span></h2>
     </div>
 
-    <div id="gameButtons">
-        <button id="startGameButton">Start</button>
+    <div id="game-intro">
+        <h2 id="game-title">&#9886; Circle Shooter &#9887;</h2>
+        <p id="introduction">Circle Shooter is a game about dodging the falling circles to stay alive, and shooting them to try and beat your highscore.</p>
+        <p id="press-to-begin">Press the Start button below to begin playing! &darr;</p>
+    </div>
+
+    <div id="game-buttons">
+        <button id="start-game-button">Start</button>
+    </div>
+
+    <div id="score-info">
     </div>
 
     <script src="main.js"></script>
