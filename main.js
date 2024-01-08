@@ -123,7 +123,7 @@ const main = () => {
             this.y = this.game.height - this.spriteHeight;
             this.speed = 10;
             this.image = document.getElementById("main-player");
-            this.hp = 2;
+            this.hp = 10;
             this.hpDisplay = document.getElementById("hp");
             this.hpDisplay.textContent = this.hp;
         }
