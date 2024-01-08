@@ -14,6 +14,7 @@ canvas {
     background-color: #000000;
     border: 2px solid #ffff;
     margin: 10px auto;
+    /* box-shadow: inset 0 0 20px red; */
 }
 
 img {
@@ -51,7 +52,7 @@ img {
 #game-buttons {
     width: 800px;
     height: 5%;
-    margin: 3rem auto;
+    margin: 5rem auto;
 }
 #game-buttons button {
     width: 100%;
