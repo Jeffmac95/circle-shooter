@@ -67,6 +67,12 @@ img {
     box-shadow: inset 0 0 10px #000000;
 }
 
+#controls-info {
+    width: 100%;
+    height: 100%;
+    color: #fbff00;
+}
+
 #press-to-begin {
     font-size: large;
     color: #2921ff;
