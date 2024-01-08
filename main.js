@@ -206,12 +206,17 @@ const main = () => {
     class Circle {
         constructor(game) {
             this.game = game;
-            this.minRadius = 20;
-            this.maxRadius = 60;
-            this.radius = Math.floor(Math.random() * (this.maxRadius - this.minRadius + 1)) + this.minRadius;
+            this.radius = this.getCircleRadius();
             this.x = Math.floor(Math.random() * (this.game.width - this.radius));
             this.y = Math.floor(Math.random() * this.radius);
             this.fallSpeed = this.getFallSpeed();
+            this.circleHp; // number
+        }
+
+        getCircleRadius() {
+            const minRadius = 20;
+            const maxRadius = 60;
+            return Math.floor(Math.random() * (maxRadius - minRadius + 1)) + minRadius;
         }
 
         getFallSpeed() {
